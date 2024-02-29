@@ -1,16 +1,15 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import Login from './pages/login/Login';
 import Dashboard from './pages/dashboard/Dashboard';
-
-function testGit() {
-  console.log("This is Git Test")
-}
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard />}>
-        </Route>
+        <Route path="/">
+          <Route index element={<Dashboard/>}/>
+          <Route path='/login' element={<Login/>}/>
+                  </Route>
       </Routes>
     </BrowserRouter>
   );
