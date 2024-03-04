@@ -12,5 +12,10 @@ export async function isEmailExist(emailId: string): Promise<AxiosResponse<any, 
 
 export async function createUser(user: Object): Promise<AxiosResponse<any, any>> {
 
-    return await API.post('user/createRegistration', user);
+    return await API.post('api/v1/auth/signUp', user);
+}
+
+export async function signIn(user: Object): Promise<AxiosResponse<any, any>> {
+
+    return await API.post('api/v1/auth/signIn', user);
 }

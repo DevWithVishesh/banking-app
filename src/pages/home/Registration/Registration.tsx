@@ -15,58 +15,58 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import * as UserService from '../../../service/user.service';
+import * as UserService from "../../../service/user.service";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default  function Registration() {
-  let emailPattern= /\S+@\S+\.\S+/;
+export default function Registration() {
+  let emailPattern = /\S+@\S+\.\S+/;
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [emailMessage, setEmailMessage] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
 
-  const handleEmailChange = async (event: any) =>  {
-    const emailId=event.target.value;
-   if(emailPattern.test(emailId)){
-   }else{
-    setIsEmailValid(false);
-setEmailMessage("Enter valid Email");
-   }
+  const handleEmailChange = async (event: any) => {
+    const emailId = event.target.value;
+    if (emailPattern.test(emailId)) {
+    } else {
+      setIsEmailValid(false);
+      setEmailMessage("Enter valid Email");
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-var user={
-      userName:  data.get("userName"),
-      emailId:  data.get("email"),
-      password:  data.get("password"),
+
+    var user = {
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
+      email: data.get("email"),
+      password: data.get("password"),
+    };
+    const response = await UserService.createUser(user);
+    if (response.status === 200) {
+      toast.success("Data Created Success Fully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      // localStorage.setItem("emailId", response.data.emailId);
+      // localStorage.setItem("password", response.data.password);
+
+      // navigate("/");
     }
-  const response=await UserService.createUser(user);
-if(response.status===200){
-  toast.success('Data Created Success Fully', {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    });
-
-    // localStorage.setItem("emailId", response.data.emailId);
-    // localStorage.setItem("password", response.data.password);
-
-navigate("/");
-}
-
   };
 
   return (
@@ -110,12 +110,20 @@ navigate("/");
                 <TextField
                   required
                   fullWidth
-                  id="userName"
-                  label="User Name"
-                  name="userName"
+                  id="firstName"
+                  label="First Name"
+                  name="firstName"
                 />
               </Grid>
-
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
